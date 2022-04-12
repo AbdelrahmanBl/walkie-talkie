@@ -11,7 +11,6 @@ app.use(express.static(path.join('public')))
 
 
 const PORT = 3000 || process.env.PORT
-const IP = '127.0.0.1'
+const IP = '0.0.0.0'
 
-// server.listen(PORT,console.log(`server running on : ${IP}:${PORT}`))
-server.listen(PORT, console.log('Server Is Running'))
+server.listen(PORT,console.log(`server running on : ${IP}:${PORT}`))
