@@ -8,22 +8,16 @@ let mediaRecorder , chunks , keyStatus , canRecord = true
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
 let audioBefore = new Audio('assets/audio/before-1.mp3')
+let replayInterval , stopRecord = false
 
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(stream => {
                           mediaRecorder = new MediaRecorder(stream)
 
                           mediaRecorder.ondataavailable = (e) => {
-                            // chunks.push(e.data)
-                            // console.log(e.data);
-                            socket.emit('audio', e.data)
-                            socket.emit('canRecord', true)
-                            // var url = URL.createObjectURL(e.data);
-                            // var preview = document.createElement('audio');
-                            // preview.controls = true;
-                            // preview.src = url;
-                            // document.getElementById('audio').append(preview);
-                        }
+                                if (mediaRecorder.state != 'recording' && stopRecord == false) mediaRecorder.start()
+                                socket.emit('audio', e.data)                                    
+                            }
                       })
                       .catch(err => {
                           console.log(err);
@@ -31,18 +25,29 @@ navigator.mediaDevices.getUserMedia(constraints)
 
 document.getElementById('start-btn').addEventListener('click', () => {
     if(canRecord == true) {
+        stopRecord = false
         socket.emit('canRecord', false)
         // audioBefore.play()
         audioAfter.play()
-        chunks = []
+        if (mediaRecorder.state != 'recording')
         mediaRecorder.start()
+        
+        replayInterval = setInterval(() => {
+            mediaRecorder.stop()
+        }, 600);
     }else {
         // audioAnother.play()
     }
 })
 document.getElementById('end-btn').addEventListener('click', () => {
     if(canRecord == true) {
-        mediaRecorder.stop()
+        if (mediaRecorder.state == 'recording') mediaRecorder.stop()
+        clearInterval(replayInterval)
+
+        stopRecord = true
+        setTimeout(() => {
+            socket.emit('canRecord', true)
+        },300)
     }
         
 })

@@ -3,27 +3,37 @@ const constraints = {
     video: false
 }
 
+const servers = null
+const pcConstraint = {
+    'optional': []
+}
 
 let mediaRecorder , chunks , keyStatus , canRecord = true
+let audioConn , tempDesc , tempIceCandidates = []
+let RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
 let audioBefore = new Audio('assets/audio/before-1.mp3')
 
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(stream => {
-                          mediaRecorder = new MediaRecorder(stream)
-
-                          mediaRecorder.ondataavailable = (e) => {
-                            // chunks.push(e.data)
-                            // console.log(e.data);
-                            socket.emit('audio', e.data)
-                            socket.emit('canRecord', true)
-                            // var url = URL.createObjectURL(e.data);
-                            // var preview = document.createElement('audio');
-                            // preview.controls = true;
-                            // preview.src = url;
-                            // document.getElementById('audio').append(preview);
+                        audioConn = new RTCPeerConnection(servers,pcConstraint)
+                        audioConn.addStream(stream)
+                        audioConn.onaddstream = (e) => {
+                            console.log('add stream : ' + e.stream);
                         }
+                        audioConn.onicecandidate = (e) => {
+                            if(e.candidate) {
+                                socket.emit('CANDIDATE_WEBRTC', {'candidate': e.candidate})
+                            }
+                        }
+                        audioConn.createOffer(desc => {
+                            console.log(desc);
+                            audioConn.setLocalDescription(desc)
+
+                            // send desc to another peer
+                            socket.emit('ASK_WEBRTC', desc)
+                        })
                       })
                       .catch(err => {
                           console.log(err);
