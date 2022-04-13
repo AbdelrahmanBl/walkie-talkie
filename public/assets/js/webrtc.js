@@ -1,6 +1,6 @@
 const constraints = {
     audio: true,
-    video: false
+    video: true
 }
 
 const configuration = {
