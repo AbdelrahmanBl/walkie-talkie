@@ -25,7 +25,7 @@ navigator.mediaDevices.getUserMedia(constraints)
                       .then(async stream => {
                         // audio.srcObject = stream
                         localStream = stream 
-                        peerConnection = new webkitRTCPeerConnection(configuration)
+                        peerConnection = getPeerConnection(configuration)
                         peerConnection.addStream(stream)
                         // localStream.getTracks().forEach(track => {
                         //     peerConnection.addTrack(track)
@@ -46,9 +46,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 document.getElementById('start-btn').addEventListener('click', () => {
     if(canRecord == true) {
         socket.emit('canRecord', false)
-        // audioBefore.play()
         audioAfter.play()
-        // audio.muted = false
     }else {
         // audioAnother.play()
     }
@@ -85,4 +83,19 @@ document.getElementById('press-btn').ontouchstart = () => {
 document.getElementById('press-btn').ontouchend = () => {
         keyStatus = 'down'
         document.getElementById('end-btn').click()
+}
+
+function getPeerConnection(configuration) {
+    if (window.mozRTCPeerConnection) {
+        return new mozRTCPeerConnection(configuration);
+      }
+    else if (window.webkitRTCPeerConnection) {
+        return new webkitRTCPeerConnection(configuration);
+    }
+    else if (window.RTCPeerConnection) {
+        return new RTCPeerConnection(configuration);
+    }
+    else {
+        alert('Not Support webRtc')
+    }
 }
