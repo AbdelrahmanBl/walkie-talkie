@@ -29,3 +29,24 @@ socket.on('new-user', (msg) => {
     child.textContent = msg
     document.getElementById('clients').append(child)
 })
+
+socket.on('offer', sessionDescription => {
+    peerConnection.setRemoteDescription(new RTCSessionDescription(sessionDescription)).then(async () => {
+        const remoteDescription = await peerConnection.createAnswer();
+        peerConnection.setLocalDescription(remoteDescription)
+        socket.emit('answer',remoteDescription)
+    })
+})
+
+socket.on('answer', remoteDescription => {
+    console.log('answer' , remoteDescription);
+    peerConnection.setRemoteDescription(new RTCSessionDescription(remoteDescription))
+})
+
+socket.on('candidate', candidate => {
+    if(candidate) {
+        console.log('candidate',candidate);
+        peerConnection.addIceCandidate(new RTCIceCandidate(candidate))
+    }
+})
+

@@ -3,37 +3,37 @@ const constraints = {
     video: false
 }
 
-const servers = null
-const pcConstraint = {
-    'optional': []
-}
+const stunServers = [
+    ['url' , 'stun1.l.google.com:19302' ]
+]
+const peerConnection = new RTCPeerConnection(stunServers)
+
+let localStream
+
 
 let mediaRecorder , chunks , keyStatus , canRecord = true
-let audioConn , tempDesc , tempIceCandidates = []
-let RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection
+let tempDesc , tempIceCandidates = []
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
 let audioBefore = new Audio('assets/audio/before-1.mp3')
 
-navigator.mediaDevices.getUserMedia(constraints)
-                      .then(stream => {
-                        audioConn = new RTCPeerConnection(servers,pcConstraint)
-                        audioConn.addStream(stream)
-                        audioConn.onaddstream = (e) => {
-                            console.log('add stream : ' + e.stream);
-                        }
-                        audioConn.onicecandidate = (e) => {
-                            if(e.candidate) {
-                                socket.emit('CANDIDATE_WEBRTC', {'candidate': e.candidate})
-                            }
-                        }
-                        audioConn.createOffer(desc => {
-                            console.log(desc);
-                            audioConn.setLocalDescription(desc)
+let audio = document.getElementById('user-audio')
 
-                            // send desc to another peer
-                            socket.emit('ASK_WEBRTC', desc)
-                        })
+navigator.mediaDevices.getUserMedia(constraints)
+                      .then(async stream => {
+                        // audio.srcObject = stream
+                        localStream = stream 
+                        peerConnection.addStream(stream)
+                        // localStream.getTracks().forEach(track => {
+                        //     peerConnection.addTrack(track)
+                        // })
+
+                        let sessionDescription = await peerConnection.createOffer()
+                        peerConnection.setLocalDescription(sessionDescription)
+                        socket.emit('offer', sessionDescription)
+
+                        peerConnection.ontrack = (e) => { audio.srcObject = e.streams[0] }
+                        peerConnection.onicecandidate = (e) => { socket.emit('candidate', e.candidate) }
                       })
                       .catch(err => {
                           console.log(err);

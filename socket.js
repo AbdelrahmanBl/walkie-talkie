@@ -10,12 +10,13 @@ io.on('connection', socket => {
     socket.on('canRecord', status => {
         socket.broadcast.emit('canRecord', status)
     })
-    socket.on('CANDIDATE_WEBRTC', obj => {
-        console.log(obj);
-        socket.broadcast.emit('CANDIDATE_WEBRTC', obj)
+    socket.on('answer', remoteDescription => {
+        socket.broadcast.emit('answer', remoteDescription)
     })
-    socket.on('ASK_WEBRTC', desc => {
-        console.log(desc);
-        socket.broadcast.emit('ASK_WEBRTC', desc)
+    socket.on('offer', sessionDescription => {
+        socket.broadcast.emit('offer', sessionDescription)
+    })
+    socket.on('candidate', candidate => {
+        socket.broadcast.emit('candidate', candidate)
     })
 })
