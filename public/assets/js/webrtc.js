@@ -48,7 +48,7 @@ document.getElementById('start-btn').addEventListener('click', () => {
         socket.emit('canRecord', false)
         // audioBefore.play()
         audioAfter.play()
-        audio.muted = false
+        // audio.muted = false
     }else {
         // audioAnother.play()
     }
@@ -56,7 +56,7 @@ document.getElementById('start-btn').addEventListener('click', () => {
 document.getElementById('end-btn').addEventListener('click', () => {
     if(canRecord == true) {
         socket.emit('canRecord', true)
-        audio.muted = true
+        // audio.muted = true
     }
         
 })

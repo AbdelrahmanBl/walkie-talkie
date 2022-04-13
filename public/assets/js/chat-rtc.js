@@ -22,9 +22,14 @@ socket.on('audio' , async (buffer) => {
 
 socket.on('canRecord', status => {
     canRecord = status
-    if(status == true)
+    if(status == true) {
         audioAfter.play()
-    else audioBefore.play()
+        audio.muted = false
+    }
+    else {
+        audioBefore.play()
+        audio.muted = true
+    }
 })
 
 socket.on('new-user', (msg) => {
