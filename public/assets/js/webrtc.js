@@ -3,10 +3,10 @@ const constraints = {
     video: false
 }
 
-const stunServers = [
-    ['url' , 'stun1.l.google.com:19302' ]
-]
-const peerConnection = new RTCPeerConnection(stunServers)
+const configuration = {
+    "iceServers": [{ "url": "stun:stun2.1.google.com:19302"}]
+}
+let peerConnection
 
 let localStream
 
@@ -18,12 +18,14 @@ let audioAfter = new Audio('assets/audio/after.mp3')
 let audioBefore = new Audio('assets/audio/before-1.mp3')
 
 let audio = document.getElementById('user-audio')
+let audioRemote = document.getElementById('remote-audio')
 audio.muted = true
 
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(async stream => {
                         // audio.srcObject = stream
                         localStream = stream 
+                        peerConnection = new webkitRTCPeerConnection(configuration)
                         peerConnection.addStream(stream)
                         // localStream.getTracks().forEach(track => {
                         //     peerConnection.addTrack(track)
@@ -33,7 +35,8 @@ navigator.mediaDevices.getUserMedia(constraints)
                         peerConnection.setLocalDescription(sessionDescription)
                         socket.emit('offer', sessionDescription)
 
-                        peerConnection.ontrack = (e) => { audio.srcObject = e.streams[0] }
+                        peerConnection.onaddstream = (e) => { audio.srcObject = e.stream }
+                        // peerConnection.ontrack = (e) => { audio.srcObject = e.streams[0] }
                         peerConnection.onicecandidate = (e) => { socket.emit('candidate', e.candidate) }
                       })
                       .catch(err => {
