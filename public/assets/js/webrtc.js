@@ -18,6 +18,7 @@ let audioAfter = new Audio('assets/audio/after.mp3')
 let audioBefore = new Audio('assets/audio/before-1.mp3')
 
 let audio = document.getElementById('user-audio')
+audio.muted = true
 
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(async stream => {
@@ -44,15 +45,15 @@ document.getElementById('start-btn').addEventListener('click', () => {
         socket.emit('canRecord', false)
         // audioBefore.play()
         audioAfter.play()
-        chunks = []
-        mediaRecorder.start()
+        audio.muted = false
     }else {
         // audioAnother.play()
     }
 })
 document.getElementById('end-btn').addEventListener('click', () => {
     if(canRecord == true) {
-        mediaRecorder.stop()
+        socket.emit('canRecord', true)
+        audio.muted = true
     }
         
 })
