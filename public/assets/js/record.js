@@ -4,6 +4,7 @@ const constraints = {
 }
 
 
+let micStatus = document.getElementById('mic-status')
 let mediaRecorder , chunks , keyStatus , canRecord = true
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
@@ -33,6 +34,8 @@ navigator.mediaDevices.getUserMedia(constraints)
 
 document.getElementById('start-btn').addEventListener('click', () => {
     if(canRecord == true) {
+        if(micStatus.classList.contains('off'))
+            micStatus.classList.toggle('off')
         socket.emit('canRecord', false)
         audioBeforeSpeak.play()
         // audioAfter.play()
@@ -44,6 +47,8 @@ document.getElementById('start-btn').addEventListener('click', () => {
 })
 document.getElementById('end-btn').addEventListener('click', () => {
     if(canRecord == true && mediaRecorder.state != "inactive") {
+        if(!micStatus.classList.contains('off'))
+            micStatus.classList.toggle('off')
         mediaRecorder.stop()
     }
         

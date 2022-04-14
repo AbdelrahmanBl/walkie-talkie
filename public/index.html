@@ -5,14 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-    <button id="start-btn" type="button">Start</button>
-    <button id="end-btn" type="button">End</button>
-
-    <br>
-
-    <button id="press-btn" style="margin-top: 1rem;padding: 2.5rem;border-radius: 50%;" type="button">R</button>
+    <div class="btns-container">
+        <div class="btns-content">
+            <div>
+                <h3 class="text-center off" id="mic-status">Mic 
+                    <span id="mic-status-on"></span>
+                    <span id="mic-status-off"></span>
+                </h3>
+            </div>
+            <div class="flex-both mt-1">
+                <button id="start-btn" type="button">Start</button>
+                <button id="end-btn" type="button">End</button>
+            </div>
+            <div class="mt-1">
+                <div class="margin-auto">
+                    <button id="press-btn" type="button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <br>
 
