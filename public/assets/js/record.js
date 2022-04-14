@@ -43,7 +43,7 @@ document.getElementById('start-btn').addEventListener('click', () => {
     }
 })
 document.getElementById('end-btn').addEventListener('click', () => {
-    if(canRecord == true) {
+    if(canRecord == true && mediaRecorder.state != "inactive") {
         mediaRecorder.stop()
     }
         
@@ -71,6 +71,17 @@ document.getElementById('press-btn').ontouchstart = () => {
 }
 
 document.getElementById('press-btn').ontouchend = () => {
-        keyStatus = 'down'
+        keyStatus = 'up'
         document.getElementById('end-btn').click()
+}
+
+document.getElementById('press-btn').onmousedown = () => {
+    if(keyStatus != 'down') {
+        keyStatus = 'down'
+        document.getElementById('start-btn').click()
+    }
+}
+document.getElementById('press-btn').onmouseup = () => {
+    keyStatus = 'up'
+    document.getElementById('end-btn').click()
 }
