@@ -7,7 +7,9 @@ const constraints = {
 let mediaRecorder , chunks , keyStatus , canRecord = true
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
-let audioBefore = new Audio('assets/audio/before-1.mp3')
+let audioBefore = new Audio('assets/audio/before-1-old.mp3')
+let audioBeforeSpeak = new Audio('assets/audio/speakSound.mp3')
+// audioBefore = audioBeforeSpeak
 
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(stream => {
@@ -32,8 +34,8 @@ navigator.mediaDevices.getUserMedia(constraints)
 document.getElementById('start-btn').addEventListener('click', () => {
     if(canRecord == true) {
         socket.emit('canRecord', false)
-        // audioBefore.play()
-        audioAfter.play()
+        audioBeforeSpeak.play()
+        // audioAfter.play()
         chunks = []
         mediaRecorder.start()
     }else {
@@ -48,14 +50,14 @@ document.getElementById('end-btn').addEventListener('click', () => {
 })
 
 document.body.onkeydown = (e) => {
-    if(e.keyCode == 32 && keyStatus != 'down') {
+    if([32].includes(e.keyCode) && keyStatus != 'down') {
         keyStatus = 'down'
         document.getElementById('start-btn').click()
     }
 }
 
 document.body.onkeyup = (e) => {
-    if(e.keyCode == 32) {
+    if([32].includes(e.keyCode)) {
         keyStatus = 'up'
         document.getElementById('end-btn').click()
     }
