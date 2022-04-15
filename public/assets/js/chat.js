@@ -6,7 +6,6 @@ socket.on('audio' , async (buffer) => {
     let blob = new Blob([buffer], {type: 'audio/ogg'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
-    alert(url)
     // var preview = document.createElement('audio');
     // counter++
     // preview.id = `audio-${counter}`
@@ -15,6 +14,7 @@ socket.on('audio' , async (buffer) => {
     // document.getElementById('audio').append(preview);
     let audioMessage = new Audio(url)
     audioBefore.play()
+    alert('zz')
     audioMessage.play()
     audioMessage.onended = () => {
         audioAfter.play()
