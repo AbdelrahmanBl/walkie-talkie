@@ -8,7 +8,7 @@ socket.on('audio' , async (buffer) => {
     var url = URL.createObjectURL(blob);
     
     // let audioMessage = new Audio(url)
-    audioBefore.play()
+    // audioBefore.play()
     clientAudio.src = url
     clientAudio.play()
     clientAudio.onended = () => {
