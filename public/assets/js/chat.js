@@ -3,10 +3,13 @@ let socket = io()
 // let counter = 0
 
 socket.on('audio' , async (buffer) => {
-    alert(buffer)
-    let blob = new Blob([buffer], {type: 'audio/ogg'})
-    // console.log(blob);
-    var url = URL.createObjectURL(blob);
+    try {
+        let blob = new Blob([buffer], {type: 'audio/ogg'})
+        // console.log(blob);
+        var url = URL.createObjectURL(blob);
+    } catch (error) {
+        alert(error)
+    }
     // var preview = document.createElement('audio');
     // counter++
     // preview.id = `audio-${counter}`
@@ -19,6 +22,7 @@ socket.on('audio' , async (buffer) => {
     audioMessage.onended = () => {
         audioAfter.play()
     }
+    
 })
 
 socket.on('canRecord', status => {
