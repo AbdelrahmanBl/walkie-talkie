@@ -3,8 +3,8 @@ let socket = io()
 // let counter = 0
 
 socket.on('audio' , async (buffer) => {
-    // console.log(buffer);
-    let blob = new Blob([buffer], {type: 'audio/wav'})
+    alert(buffer)
+    let blob = new Blob([buffer], {type: 'audio/ogg'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
     // var preview = document.createElement('audio');
