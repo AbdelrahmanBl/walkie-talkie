@@ -10,9 +10,14 @@ socket.on('audio' , async (buffer) => {
     let audioMessage = new Audio(url)
     // audioBefore.play()
 
+    audioAfter.load()
     audioAfter.play()
+
+    audioMessage.load()
     audioMessage.play()
+
     audioMessage.onended = () => {
+        audioAfter.load()
         audioAfter.play()
     }
 })
