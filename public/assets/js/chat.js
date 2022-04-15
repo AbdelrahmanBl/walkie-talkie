@@ -3,7 +3,6 @@ let socket = io()
 // let counter = 0
 
 socket.on('audio' , async (buffer) => {
-    audioBeforeSpeak.play()
     let blob = new Blob([buffer], {type: 'audio/ogg'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
