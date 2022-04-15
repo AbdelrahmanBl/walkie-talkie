@@ -6,20 +6,17 @@ socket.on('audio' , async (buffer) => {
     let blob = new Blob([buffer], {type: 'audio/ogg'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
-    // var preview = document.createElement('audio');
-    // counter++
-    // preview.id = `audio-${counter}`
-    // preview.controls = true;
-    // preview.src = url;
-    // document.getElementById('audio').append(preview);
     
     // let audioMessage = new Audio(url)
     audioBefore.play()
     clientAudio.src = url
+    alert('set')
     clientAudio.play()
     clientAudio.onended = () => {
+        alert('end')
         audioAfter.play()
     }
+    alert('end-end')
 })
 
 socket.on('canRecord', status => {
