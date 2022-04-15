@@ -41,7 +41,10 @@
     <video autoplay id="remote-audio"></video> -->
 
     <script src="assets/js/socket.io.min.js"></script>
-    <script type="module" src="assets/vendor/audio-recorder-polyfill/index.js"></script>
+    <script type="module">
+        import AudioRecorder from './assets/vendor/audio-recorder-polyfill/index.js'
+        window.MediaRecorder = AudioRecorder
+    </script>
 
     <!-- <script src="assets/js/test-chat.js"></script>
     <script src="assets/js/test-recored.js"></script> -->
