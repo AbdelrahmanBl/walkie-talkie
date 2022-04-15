@@ -12,11 +12,12 @@ socket.on('audio' , async (buffer) => {
     // preview.controls = true;
     // preview.src = url;
     // document.getElementById('audio').append(preview);
-    let audioMessage = new Audio(url)
+    
     audioBefore.play()
-    alert('zz')
-    audioMessage.play()
-    audioMessage.onended = () => {
+    // let audioMessage = new Audio(url)
+    audio.src = url
+    audio.play()
+    audio.onended = () => {
         audioAfter.play()
     }
 })

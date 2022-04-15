@@ -30,8 +30,8 @@
 
     <br>
 
-    <div id="audio">
-
+    <div class="d-none">
+        <audio id="audio" autoplay></audio>
     </div>
 
     <ul id="clients">
@@ -44,7 +44,7 @@
     <script type="module">
         import AudioRecorder from './assets/vendor/audio-recorder-polyfill/index.js'
         import mpegEncoder from './assets/vendor/audio-recorder-polyfill/mpeg-encoder/index.js'
-        
+
         AudioRecorder.encoder = mpegEncoder
         AudioRecorder.prototype.mimeType = 'audio/mpeg'
         window.MediaRecorder = AudioRecorder
