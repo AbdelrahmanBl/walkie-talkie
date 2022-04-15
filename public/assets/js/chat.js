@@ -4,7 +4,7 @@ let socket = io()
 
 socket.on('audio' , async (buffer) => {
     // console.log(buffer);
-    let blob = new Blob([buffer], {type: 'audio/ogg'})
+    let blob = new Blob([buffer], {type: 'audio/wav'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
     // var preview = document.createElement('audio');
