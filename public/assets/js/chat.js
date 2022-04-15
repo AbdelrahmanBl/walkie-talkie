@@ -3,7 +3,6 @@ let socket = io()
 // let counter = 0
 
 socket.on('audio' , async (buffer) => {
-    audioBefore.play()
     let blob = new Blob([buffer], {type: 'audio/ogg'})
     // console.log(blob);
     var url = URL.createObjectURL(blob);
@@ -14,10 +13,11 @@ socket.on('audio' , async (buffer) => {
     // preview.src = url;
     // document.getElementById('audio').append(preview);
     
-    // audioBefore.play()
-    let audioMessage = new Audio(url)
-    audioMessage.play()
-    audioMessage.onended = () => {
+    // let audioMessage = new Audio(url)
+    audioBefore.play()
+    clientAudio.src = url
+    clientAudio.play()
+    clientAudio.onended = () => {
         audioAfter.play()
     }
 })
