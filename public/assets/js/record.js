@@ -15,18 +15,10 @@ let audioBeforeSpeak = new Audio('assets/audio/speakSound.mp3')
 navigator.mediaDevices.getUserMedia(constraints)
                       .then(stream => {
                           mediaRecorder = new MediaRecorder(stream)
-
-                          mediaRecorder.ondataavailable = (e) => {
-                            // chunks.push(e.data)
-                            // console.log(e.data);
+                          mediaRecorder.addEventListener('dataavailable' , e => {
                             socket.emit('audio', e.data)
                             socket.emit('canRecord', true)
-                            // var url = URL.createObjectURL(e.data);
-                            // var preview = document.createElement('audio');
-                            // preview.controls = true;
-                            // preview.src = url;
-                            // document.getElementById('audio').append(preview);
-                        }
+                          })
                       })
                       .catch(err => {
                           console.log(err);
@@ -90,3 +82,5 @@ document.getElementById('press-btn').onmouseup = () => {
     keyStatus = 'up'
     document.getElementById('end-btn').click()
 }
+
+
