@@ -5,7 +5,6 @@ const constraints = {
 
 
 let micStatus = document.getElementById('mic-status')
-let audio = document.getElementById('audio')
 let mediaRecorder , chunks , keyStatus , canRecord = true
 // let audioAnother = new Audio('assets/audio/another.mp3')
 let audioAfter = new Audio('assets/audio/after.mp3')
