@@ -30,7 +30,7 @@ document.getElementById('start-btn').addEventListener('click', () => {
         if(micStatus.classList.contains('off'))
             micStatus.classList.toggle('off')
         socket.emit('canRecord', false)
-        audioBefore.play()
+        audioBeforeSpeak.play()
         // audioAfter.play()
         chunks = []
         mediaRecorder.start()
