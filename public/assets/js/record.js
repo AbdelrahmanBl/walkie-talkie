@@ -31,7 +31,7 @@ document.getElementById('start-btn').addEventListener('click', () => {
             micStatus.classList.toggle('off')
         socket.emit('canRecord', false)
         // audioBeforeSpeak.play()
-        // audioAfter.play()
+        audioAfter.play()
         chunks = []
         mediaRecorder.start()
     }else {
@@ -43,6 +43,7 @@ document.getElementById('end-btn').addEventListener('click', () => {
         if(!micStatus.classList.contains('off'))
             micStatus.classList.toggle('off')
         mediaRecorder.stop()
+        audioAfter.play()
     }
         
 })
